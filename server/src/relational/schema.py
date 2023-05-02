@@ -1,16 +1,11 @@
-from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from relational.tables.message import Message
+from relational.create_engine import create_engine
 
-DATABASE = 'sqlite:///db.sqlite3'
-
-Engine = create_engine(
-  DATABASE,
-  echo=True
-)
+engine = create_engine()
 
 session = Session(
   autocommit = False,
   autoflush = True,
-  bind = Engine
+  bind = engine
 )

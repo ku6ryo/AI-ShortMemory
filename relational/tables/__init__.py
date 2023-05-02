@@ -1,1 +1,0 @@
-print ("tables imported")
