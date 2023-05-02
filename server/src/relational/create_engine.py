@@ -6,5 +6,5 @@ def create_engine():
     print(os.environ.get("DATABASE"))
     return ce(
         os.environ.get("DATABASE"),
-        echo=True
+        echo=False
     )

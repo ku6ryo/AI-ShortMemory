@@ -8,9 +8,10 @@ class Repository():
   def __init__(self):
     pass
 
-  def add(self, role: int, text: str):
+  def add(self, session_id: str, role: int, text: str):
     m = Message()
     m.id = str(uuid.uuid4())
+    m.session_id = session_id
     m.role = role
     m.text = text
     session.add(m)
@@ -22,6 +23,8 @@ class Repository():
     session.delete(m)
     session.commit()
   
-  def getMessages(self, limit = 100):
-    messages = session.query(Message).order_by(desc("created_at")).limit(limit).all()
+  def getMessages(self, session_id: str, limit = 100):
+    messages = session.query(Message) \
+        .where(Message.session_id == session_id) \
+        .order_by(desc("created_at")).limit(limit).all()
     return messages

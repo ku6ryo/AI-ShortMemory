@@ -5,6 +5,7 @@ from relational.tables.base import Base
 class Message(Base):
     __tablename__ = 'messages'
     id = Column('id', String(36), primary_key=True)
+    session_id = Column('session_id', String(36), nullable=False)
     role = Column('role', Integer, nullable=False)
     text = Column('text', String(1000), nullable=False)
     created_at = Column("created_at", TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)
