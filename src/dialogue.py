@@ -1,10 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv(verbose=True)
-import os, openai
 from ai.inspector import Inspector
 from ai.kid import Kid
-
-openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 ai_a = Kid()
 ai_b = Inspector()

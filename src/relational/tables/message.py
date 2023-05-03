@@ -6,6 +6,7 @@ class Message(Base):
     __tablename__ = 'messages'
     id = Column('id', String(36), primary_key=True)
     session_id = Column('session_id', String(36), nullable=False)
-    role = Column('role', Integer, nullable=False)
+    user_id = Column('user_id', String(36), nullable=False)
     text = Column('text', String(1000), nullable=False)
+    tokens = Column('tokens', Integer, nullable=False)
     created_at = Column("created_at", TIMESTAMP, server_default=func.now(), onupdate=func.current_timestamp(), nullable=False)
