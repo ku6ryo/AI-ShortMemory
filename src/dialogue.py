@@ -4,7 +4,9 @@ from ai.inspector import Inspector
 from ai.kid import Kid
 
 ai_a = Kid()
+ai_a.set_topic("conputert science")
 ai_b = Inspector()
+ai_b.set_topic("conputert science")
 
 limit = 20
 cnt = 0

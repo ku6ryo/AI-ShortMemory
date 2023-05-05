@@ -1,7 +1,6 @@
 import uuid
 from relational.repository import Repository
 from gpt.gpt import chat_completion, count_token
-from vector.chroma import ChromaClient
 
 class AiBase():
 
@@ -9,13 +8,22 @@ class AiBase():
         self.id = str(uuid.uuid4())
         self.person_to_talk_to_id = str(uuid.uuid4())
         self.repo = Repository()
-        self.chroma = ChromaClient()
         self.num_responded = 0
         self.max_history_length = 100
         self.history_token_limit = 2000
 
+    def set_topic(self, topic: str):
+        self.topic = topic
+
     def gen_role_description(self):
-        return "You are a smart AI assistant."
+        return "You are an AI assistant."
+    
+    def gen_system_message(self):
+        role_description = self.gen_role_description()
+        message = f"{role_description}"
+        if (self.topic):
+          message += f" The topic is {self.topic}."
+        return message
     
     def get_conversation_history(self, limit = 100):
         records = self.repo.getMessages(self.id, limit)[::-1]
@@ -30,15 +38,12 @@ class AiBase():
               roleStr = "user"
             total_tokens += r.tokens
             gpt_messages.append({ "role": roleStr, "content": r.text })
-
-        print("total_tokens: ", total_tokens)
         return gpt_messages
 
     def respond(self, message: str):
         self.num_responded += 1
-        role_description = self.gen_role_description()
         messages_to_send = [
-          { "role": "system", "content": role_description },
+          { "role": "system", "content": self.gen_system_message() },
         ]
         history = self.get_conversation_history(self.max_history_length)
         for m in history:
